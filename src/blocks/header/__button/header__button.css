@@ -1,0 +1,17 @@
+.header__button {
+  padding: 0;
+  margin: 0;
+  height: 70px;
+  color: white;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  border-radius: 3px;
+  background: rgb(64,199,129);
+  box-shadow: 0 -3px rgb(53,167,110) inset;
+  transition: 0.2s;
+  cursor: pointer;
+}
+   
+.header__button:hover { 
+  background: rgb(53, 167, 110); 
+}
