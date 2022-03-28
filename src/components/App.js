@@ -10,29 +10,23 @@ function App() {
   
   const [cards, setCards] = React.useState([]);
   const [filtered, setFiltered] = React.useState(cards);
-  const [isFiltered, setIsFiltered] = React.useState(true);
+  const [isFiltered, setIsFiltered] = React.useState(false);
 
   React.useEffect(() => {
     api.getAllCards()
-      .then(cards => { setCards(cards.map((cards) => 
+      .then(cards => { setCards(cards.splice(0,30).map((cards) => 
         { return { title: cards.title, url: cards.url, isLiked: false, id: cards.id } })) 
       })
       .catch((err) => console.log(`Ошибка ${err}`))
   }, []);
   console.log(cards)
 
-  //React.useEffect(() => {
-  //  setFiltered(cards)
-  //}, []);
+  React.useEffect(() => {
+    setFiltered(cards.filter(card => card.isLiked === true))
+  }, [cards, isFiltered]);
   
   function handleFilterClick() {
-    if (isFiltered) {
-      setFiltered(cards.filter(card =>  card.isLiked === true  ))
-      setIsFiltered(false)
-    } else {
-      setFiltered(cards)
-      setIsFiltered(true)
-    }
+    setIsFiltered((prev) => !prev)
   }
 
   function handleCardLike(id) {
@@ -56,7 +50,7 @@ function App() {
         <div className="page__container">
           <Header onCardFilter={handleFilterClick} />
           <Main
-            cards={cards}
+            cards={isFiltered ? filtered : cards}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
           />
